@@ -1,4 +1,4 @@
-{% set version = "1.1.0" %}
+{% set version = "1.1.2" %}
 
 package:
   name: sng
@@ -6,7 +6,7 @@ package:
 
 source:
   - url: http://sourceforge.net/projects/sng/files/sng-{{ version }}.tar.gz
-    sha256: 119c55870c1d1bdc65f7de9dbc62929ccb0c301c2fb79f77df63f5d477f34619
+    sha256: e6938a66ce3b6fafb0c6e6b809f8ddf662c6a962279278c4a627924761336f93
   - folder: pngsuite
     url: http://www.schaik.com/pngsuite/PngSuite-2017jul19.tgz
     sha256: 0294b244c95a8342c01b00010cf34abdcabc7c6a34fd0fe1bd963917537bfdc8
@@ -18,6 +18,7 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - autoconf  # [linux]
     - automake  # [linux]
     - make  # [linux]
