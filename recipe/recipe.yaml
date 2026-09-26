@@ -24,11 +24,11 @@ build:
     content:
       - make sng VERSION="${{ version }}" PREFIX="${{ PREFIX }}" RGBTXT="${{ PREFIX }}/share/netpbm/rgb.txt"
       - make install-bin
+      - mv ${PREFIX}/bin/bin/sng ${PREFIX}/bin/sng
 
 requirements:
   build:
     - ${{ compiler("c") }}
-    - ${{ compiler("cxx") }}
     - ${{ stdlib("c") }}
     - make
   host:
@@ -36,9 +36,13 @@ requirements:
     - netpbm
 
 tests:
+  - package_contents:
+      strict: true
+      bin:
+        - sng
   - script:
       - sng -V
-      - sng -V | grep -iE "sng version ${{ version | replace(".", "\\.") }}"
+      - sng -V | grep -iE "sng version ${{ version | replace(".", "\\.") }} "
 
 about:
   summary: Enable lossless editing of PNGs via a textual representation.
