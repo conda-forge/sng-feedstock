@@ -20,7 +20,13 @@ build:
   skip: win
   script:
     content:
-      - export CFLAGS="${CFLAGS} -Wno-array-bounds -Wno-stringop-truncation -Wno-stringop-overflow"
+      - if: linux
+        then:
+          - export CFLAGS="${CFLAGS} -Wno-array-bounds -Wno-stringop-truncation -Wno-stringop-overflow"
+        else:
+          # error: unknown warning option '-Wno-stringop-truncation'; did you mean '-Wno-format-truncation'? [-Werror,-Wunknown-warning-option]
+          # error: unknown warning option '-Wno-stringop-overflow'; did you mean '-Wno-shift-overflow'? [-Werror,-Wunknown-warning-option]
+          - export CFLAGS="${CFLAGS} -Wno-array-bounds -Wno-format-truncation -Wno-shift-overflow"
       - make sng VERSION="${{ version }}" PREFIX="${{ PREFIX }}" RGBTXT="${{ PREFIX }}/share/netpbm/rgb.txt"
       - make install-bin
       - mv ${PREFIX}/bin/bin/sng ${PREFIX}/bin/sng
