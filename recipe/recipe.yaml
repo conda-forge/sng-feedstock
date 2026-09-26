@@ -11,6 +11,9 @@ package:
 source:
   - url: http://sourceforge.net/projects/sng/files/sng-${{ version }}.tar.gz
     sha256: e6938a66ce3b6fafb0c6e6b809f8ddf662c6a962279278c4a627924761336f93
+  - url: https://sourceforge.net/p/sng/code/ci/${{ version }}/tree/COPYING?format=raw
+    sha256: 7dbbdc18f4336dffe72f10a3fd6341727012c87960c4827fab12d12674c927cc
+    file_name: COPYING
 
 build:
   number: 0
