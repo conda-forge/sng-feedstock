@@ -3,11 +3,13 @@ About sng-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/sng-feedstock/blob/main/LICENSE.txt)
 
-Home: https://sng.sourceforge.net
+Home: https://sng.sourceforge.net/
 
 Package license: Zlib
 
 Summary: Enable lossless editing of PNGs via a textual representation.
+
+Development: https://sourceforge.net/p/sng/code/ci/master/tree/
 
 SNG (Scriptable Network Graphics) is a minilanguage designed specifically to
 represent the entire contents of a PNG (Portable Network Graphics) file in an
@@ -17,12 +19,18 @@ chunk data can be readily generated or modified using only text tools.
 SNG is implemented by a compiler/decompiler called sng that losslessly
 translates between SNG and PNG.
 
-
 Current build status
 ====================
 
 
-<table>
+<table><tr>
+    <td>GitHub Actions</td>
+    <td>
+      <a href="https://github.com/conda-forge/sng-feedstock/actions/workflows/conda-build.yml">
+        <img src="https://github.com/conda-forge/sng-feedstock/actions/workflows/conda-build.yml/badge.svg?event=push&branch=main">
+      </a>
+    </td>
+  </tr>
     
   <tr>
     <td>Azure</td>
@@ -36,13 +44,6 @@ Current build status
         <table>
           <thead><tr><th>Variant</th><th>Status</th></tr></thead>
           <tbody><tr>
-              <td>linux_64</td>
-              <td>
-                <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=20265&branchName=main">
-                  <img src="https://dev.azure.com/conda-forge/feedstock-builds/_apis/build/status/sng-feedstock?branchName=main&jobName=linux&configuration=linux%20linux_64_" alt="variant">
-                </a>
-              </td>
-            </tr><tr>
               <td>osx_64</td>
               <td>
                 <a href="https://dev.azure.com/conda-forge/feedstock-builds/_build/latest?definitionId=20265&branchName=main">
@@ -74,31 +75,73 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `sng` can be installed with `conda`:
+How to use
+----------
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda install sng
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba install sng
 ```
 
-It is possible to list all of the versions of `sng` available on your platform with `conda`:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+# for adding to your local project
+pixi add sng
+# for installing globally
+pixi global install sng
+```
+
+</details>
+
+Search package versions
+-----------------------
+
+It is possible to list all of the versions of `sng` available on your platform:
+
+<details>
+<summary>With conda</summary>
 
 ```
 conda search sng --channel conda-forge
 ```
 
-or with `mamba`:
+</details>
+
+<details>
+<summary>With mamba</summary>
 
 ```
 mamba search sng --channel conda-forge
 ```
 
-Alternatively, `mamba repoquery` may provide more information:
+</details>
+
+<details>
+<summary>With pixi</summary>
+
+```
+pixi search sng --channel conda-forge
+```
+
+</details>
+
+<details>
+<summary>With mamba repoquery, which may provide more information</summary>
 
 ```
 # Search all versions available on your platform:
@@ -110,6 +153,8 @@ mamba repoquery whoneeds sng --channel conda-forge
 # List dependencies of `sng`:
 mamba repoquery depends sng --channel conda-forge
 ```
+
+</details>
 
 
 About conda-forge
