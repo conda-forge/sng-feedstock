@@ -1,0 +1,69 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
+schema_version: 1
+
+context:
+  version: "1.1.2"
+
+package:
+  name: sng
+  version: ${{ version }}
+
+source:
+  - url: http://sourceforge.net/projects/sng/files/sng-${{ version }}.tar.gz
+    sha256: e6938a66ce3b6fafb0c6e6b809f8ddf662c6a962279278c4a627924761336f93
+  - url: https://sourceforge.net/p/sng/code/ci/${{ version }}/tree/COPYING?format=raw
+    sha256: 7dbbdc18f4336dffe72f10a3fd6341727012c87960c4827fab12d12674c927cc
+    file_name: COPYING
+
+build:
+  number: 0
+  skip: win
+  script:
+    content:
+      - if: linux
+        then:
+          - export CFLAGS="${CFLAGS} -Wno-array-bounds -Wno-stringop-truncation -Wno-stringop-overflow"
+        else:
+          # error: unknown warning option '-Wno-stringop-truncation'; did you mean '-Wno-format-truncation'? [-Werror,-Wunknown-warning-option]
+          # error: unknown warning option '-Wno-stringop-overflow'; did you mean '-Wno-shift-overflow'? [-Werror,-Wunknown-warning-option]
+          - export CFLAGS="${CFLAGS} -Wno-array-bounds -Wno-format-truncation -Wno-shift-overflow"
+      - make sng VERSION="${{ version }}" PREFIX="${{ PREFIX }}" RGBTXT="${{ PREFIX }}/share/netpbm/rgb.txt"
+      - make install-bin
+      - mv ${PREFIX}/bin/bin/sng ${PREFIX}/bin/sng
+
+requirements:
+  build:
+    - ${{ compiler("c") }}
+    - ${{ stdlib("c") }}
+    - make
+  host:
+    - libpng
+    - netpbm
+
+tests:
+  - package_contents:
+      strict: true
+      bin:
+        - sng
+  - script:
+      - sng -V
+      - sng -V | grep -iE "sng version ${{ version | replace(".", "\\.") }} "
+
+about:
+  summary: Enable lossless editing of PNGs via a textual representation.
+  description: |
+    SNG (Scriptable Network Graphics) is a minilanguage designed specifically to
+    represent the entire contents of a PNG (Portable Network Graphics) file in an
+    editable form. Thus, SNGs representing elaborate graphics images and ancillary
+    chunk data can be readily generated or modified using only text tools.
+
+    SNG is implemented by a compiler/decompiler called sng that losslessly
+    translates between SNG and PNG.
+  license: Zlib
+  license_file: COPYING
+  homepage: https://sng.sourceforge.net
+  repository: https://git.code.sf.net/p/sng/code
+
+extra:
+  recipe-maintainers:
+    - bollwyvl
