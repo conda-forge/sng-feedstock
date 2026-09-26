@@ -9,7 +9,7 @@ Package license: Zlib
 
 Summary: Enable lossless editing of PNGs via a textual representation.
 
-Development: https://sourceforge.net/p/sng/code/ci/master/tree/
+Development: https://git.code.sf.net/p/sng/code
 
 SNG (Scriptable Network Graphics) is a minilanguage designed specifically to
 represent the entire contents of a PNG (Portable Network Graphics) file in an
