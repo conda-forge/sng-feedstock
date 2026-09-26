@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/prefix-dev/recipe-format/main/schema.json
 schema_version: 1
 
 context:
@@ -8,7 +9,7 @@ package:
   version: ${{ version }}
 
 source:
-  - url: http://sourceforge.net/projects/sng/files/sng-${{ version }}.tar.gz
+  - url: https://sourceforge.net/projects/sng/files/sng-${{ version }}.tar.gz
     sha256: e6938a66ce3b6fafb0c6e6b809f8ddf662c6a962279278c4a627924761336f93
   - url: http://www.schaik.com/pngsuite/PngSuite-2017jul19.tgz
     sha256: 0294b244c95a8342c01b00010cf34abdcabc7c6a34fd0fe1bd963917537bfdc8
@@ -20,14 +21,13 @@ build:
 
 requirements:
   build:
-    - ${{ compiler('c') }}
+    - ${{ compiler("c") }}
     - ${{ stdlib("c") }}
     - if: linux
-      then: autoconf
-    - if: linux
-      then: automake
-    - if: linux
-      then: make
+      then:
+        - autoconf
+        - automake
+        - make
   host:
     - libpng
     - netpbm
@@ -35,7 +35,7 @@ requirements:
 tests:
   - script:
       - sng -V
-      - sng -V | grep -iE "sng version ${{ version | replace(".", "\.") }}"
+      - sng -V | grep -iE "sng version ${{ version | replace(".", "\\.") }}"
 
 about:
   summary: Enable lossless editing of PNGs via a textual representation.
@@ -50,6 +50,7 @@ about:
   license: Zlib
   license_file: COPYING
   homepage: https://sng.sourceforge.net
+  repository: https://sourceforge.net/p/sng/code/ci/master/tree/
 
 extra:
   recipe-maintainers:
