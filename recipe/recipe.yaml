@@ -1,38 +1,43 @@
-{% set version = "1.1.2" %}
+schema_version: 1
+
+context:
+  version: "1.1.2"
 
 package:
   name: sng
-  version: {{ version }}
+  version: ${{ version }}
 
 source:
-  - url: http://sourceforge.net/projects/sng/files/sng-{{ version }}.tar.gz
+  - url: http://sourceforge.net/projects/sng/files/sng-${{ version }}.tar.gz
     sha256: e6938a66ce3b6fafb0c6e6b809f8ddf662c6a962279278c4a627924761336f93
-  - folder: pngsuite
-    url: http://www.schaik.com/pngsuite/PngSuite-2017jul19.tgz
+  - url: http://www.schaik.com/pngsuite/PngSuite-2017jul19.tgz
     sha256: 0294b244c95a8342c01b00010cf34abdcabc7c6a34fd0fe1bd963917537bfdc8
+    target_directory: pngsuite
 
 build:
   number: 0
-  skip: true  # [win]
+  skip: win
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ stdlib("c") }}
-    - autoconf  # [linux]
-    - automake  # [linux]
-    - make  # [linux]
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - if: linux
+      then: autoconf
+    - if: linux
+      then: automake
+    - if: linux
+      then: make
   host:
     - libpng
     - netpbm
 
-test:
-  commands:
-    - sng -V
-    - sng -V | grep -iE "sng version {{ version.replace(".", "\.") }}"
+tests:
+  - script:
+      - sng -V
+      - sng -V | grep -iE "sng version ${{ version | replace(".", "\.") }}"
 
 about:
-  home: https://sng.sourceforge.net
   summary: Enable lossless editing of PNGs via a textual representation.
   description: |
     SNG (Scriptable Network Graphics) is a minilanguage designed specifically to
@@ -44,6 +49,7 @@ about:
     translates between SNG and PNG.
   license: Zlib
   license_file: COPYING
+  homepage: https://sng.sourceforge.net
 
 extra:
   recipe-maintainers:
