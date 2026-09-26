@@ -9,25 +9,25 @@ package:
   version: ${{ version }}
 
 source:
-  - url: https://sourceforge.net/projects/sng/files/sng-${{ version }}.tar.gz
+  - url: http://sourceforge.net/projects/sng/files/sng-${{ version }}.tar.gz
     sha256: e6938a66ce3b6fafb0c6e6b809f8ddf662c6a962279278c4a627924761336f93
-  - url: http://www.schaik.com/pngsuite/PngSuite-2017jul19.tgz
-    sha256: 0294b244c95a8342c01b00010cf34abdcabc7c6a34fd0fe1bd963917537bfdc8
-    target_directory: pngsuite
 
 build:
   number: 0
   skip: win
+  script:
+    env:
+      CFLAGS: "${CFLAGS} -Wno-array-bounds -Wno-stringop-truncation -Wno-stringop-overflow"
+    content:
+      - make sng VERSION="${{ version }}" PREFIX="${{ PREFIX }}" RGBTXT="${{ PREFIX }}/share/netpbm/rgb.txt"
+      - make install-bin
 
 requirements:
   build:
     - ${{ compiler("c") }}
+    - ${{ compiler("cxx") }}
     - ${{ stdlib("c") }}
-    - if: linux
-      then:
-        - autoconf
-        - automake
-        - make
+    - make
   host:
     - libpng
     - netpbm
@@ -50,7 +50,7 @@ about:
   license: Zlib
   license_file: COPYING
   homepage: https://sng.sourceforge.net
-  repository: https://sourceforge.net/p/sng/code/ci/master/tree/
+  repository: https://git.code.sf.net/p/sng/code
 
 extra:
   recipe-maintainers:
